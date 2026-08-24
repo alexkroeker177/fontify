@@ -1,0 +1,148 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: #f6f7f9;
+  color: #16181d;
+}
+
+.app {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f6f7f9;
+  padding: 20px 0 16px;
+  border-bottom: 1px solid #e3e7ee;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+input {
+  font: inherit;
+  padding: 8px 12px;
+  border: 1px solid #d4dae3;
+  border-radius: 8px;
+  background: #fff;
+  outline: none;
+}
+
+input:focus {
+  border-color: #16181d;
+}
+
+.name-input {
+  flex: 1;
+  min-width: 180px;
+}
+
+.sample-input {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.counter {
+  color: #6b7686;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.primary {
+  font: inherit;
+  font-weight: 600;
+  background: #16181d;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 16px;
+  cursor: pointer;
+}
+
+.primary:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.preview {
+  margin-top: 12px;
+  min-height: 90px;
+  font-size: 58px;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+section h2 {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b7686;
+  margin: 30px 0 10px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
+  gap: 10px;
+}
+
+.cell {
+  background: #fff;
+  border: 1px solid #e3e7ee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cell:hover {
+  border-color: #b9c3d2;
+}
+
+.cell-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 4px 0 10px;
+  height: 22px;
+}
+
+.cell-char {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7686;
+}
+
+.cell-clear {
+  border: none;
+  background: none;
+  color: #9aa4b2;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 0 6px;
+}
+
+.cell-clear:hover {
+  color: #16181d;
+}
+
+.cell canvas {
+  cursor: crosshair;
+}

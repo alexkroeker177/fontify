@@ -5,8 +5,8 @@ export const BASELINE = 0.72
 export const XLINE = 0.44
 
 export const GROUPS: { label: string; chars: string[] }[] = [
-  { label: 'Großbuchstaben', chars: [...'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ'] },
-  { label: 'Kleinbuchstaben', chars: [...'abcdefghijklmnopqrstuvwxyzäöüß'] },
-  { label: 'Ziffern', chars: [...'0123456789'] },
-  { label: 'Zeichen', chars: [...`.,:;!?-'"()&@€`] },
+  { label: 'Uppercase', chars: [...'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ'] },
+  { label: 'Lowercase', chars: [...'abcdefghijklmnopqrstuvwxyzäöüß'] },
+  { label: 'Digits', chars: [...'0123456789'] },
+  { label: 'Punctuation', chars: [...`.,:;!?-'"()&@€`] },
 ]

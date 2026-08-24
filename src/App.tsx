@@ -7,8 +7,8 @@ import type { Stroke } from './types'
 const PREVIEW_FAMILY = 'FontifyPreview'
 
 export default function App() {
-  const [fontName, setFontName] = useState('Meine Handschrift')
-  const [sample, setSample] = useState('Hallo! Das ist meine Handschrift.')
+  const [fontName, setFontName] = useState('My Handwriting')
+  const [sample, setSample] = useState('Hello! This is my handwriting.')
   const [strokesMap, setStrokesMap] = useState<Record<string, Stroke[]>>({})
   const [previewReady, setPreviewReady] = useState(false)
   const faceRef = useRef<FontFace | null>(null)
@@ -35,7 +35,7 @@ export default function App() {
           document.fonts.add(loaded)
           setPreviewReady(true)
         })
-        .catch(err => console.error('Vorschau-Font konnte nicht geladen werden:', err))
+        .catch(err => console.error('Failed to load preview font:', err))
     }, 350)
     return () => clearTimeout(timer)
   }, [strokesMap])
@@ -69,20 +69,20 @@ export default function App() {
             className="name-input"
             value={fontName}
             onChange={e => setFontName(e.target.value)}
-            placeholder="Name deiner Schrift"
+            placeholder="Your font name"
           />
           <span className="counter">
-            {drawn} / {total} Zeichen
+            {drawn} / {total} characters
           </span>
           <button className="primary" onClick={download} disabled={drawn === 0}>
-            Font herunterladen (.otf)
+            Download font (.otf)
           </button>
         </div>
         <input
           className="sample-input"
           value={sample}
           onChange={e => setSample(e.target.value)}
-          placeholder="Beispieltext"
+          placeholder="Sample text"
         />
         <div
           className="preview"

@@ -105,7 +105,7 @@ export function DrawCell({ char, strokes, onAddStroke, onClear }: Props) {
       <div className="cell-head">
         <span className="cell-char">{char}</span>
         {strokes.length > 0 && (
-          <button className="cell-clear" title="Löschen" onClick={onClear}>
+          <button className="cell-clear" title="Clear" onClick={onClear}>
             ×
           </button>
         )}

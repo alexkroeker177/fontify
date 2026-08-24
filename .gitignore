@@ -2,3 +2,6 @@ node_modules
 dist
 *.local
 .DS_Store
+
+# Personal generated fonts stay out of the (future public) repo
+*.otf

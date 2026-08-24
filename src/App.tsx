@@ -1,23 +1,28 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { GROUPS } from './glyphs'
+import { useEffect, useRef, useState } from 'react'
+import { CHARSETS } from './glyphs'
 import { DrawCell } from './DrawCell'
+import { Logo } from './Logo'
 import { buildFont } from './fontBuilder'
+import { SupportCard } from './SupportCard'
+import { GITHUB_URL, KOFI_URL } from './config'
+import { clearState, loadState, saveState } from './persistence'
 import type { Stroke } from './types'
 
 const PREVIEW_FAMILY = 'FontifyPreview'
+const saved = loadState()
 
 export default function App() {
   const [fontName, setFontName] = useState('My Handwriting')
   const [sample, setSample] = useState('Hello! This is my handwriting.')
-  const [strokesMap, setStrokesMap] = useState<Record<string, Stroke[]>>({})
+  const [strokesMap, setStrokesMap] = useState<Record<string, Stroke[]>>(() => saved?.map ?? {})
+  const [enabledSets, setEnabledSets] = useState<string[]>(() => saved?.sets ?? ['latin'])
   const [previewReady, setPreviewReady] = useState(false)
+  const [showSupport, setShowSupport] = useState(false)
   const faceRef = useRef<FontFace | null>(null)
 
-  const drawn = useMemo(
-    () => Object.values(strokesMap).filter(s => s.length > 0).length,
-    [strokesMap],
-  )
-  const total = useMemo(() => GROUPS.reduce((n, g) => n + g.chars.length, 0), [])
+  const activeSets = CHARSETS.filter(cs => enabledSets.includes(cs.id))
+  const activeChars = activeSets.flatMap(cs => cs.groups.flatMap(g => g.chars))
+  const drawn = activeChars.filter(ch => (strokesMap[ch] ?? []).length > 0).length
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -40,12 +45,27 @@ export default function App() {
     return () => clearTimeout(timer)
   }, [strokesMap])
 
+  useEffect(() => {
+    const timer = setTimeout(() => saveState(enabledSets, strokesMap), 500)
+    return () => clearTimeout(timer)
+  }, [strokesMap, enabledSets])
+
   function addStroke(ch: string, stroke: Stroke) {
     setStrokesMap(m => ({ ...m, [ch]: [...(m[ch] ?? []), stroke] }))
   }
 
   function clearChar(ch: string) {
     setStrokesMap(m => ({ ...m, [ch]: [] }))
+  }
+
+  function toggleSet(id: string) {
+    setEnabledSets(s => (s.includes(id) ? s.filter(x => x !== id) : [...s, id]))
+  }
+
+  function resetAll() {
+    if (!confirm('Delete all your drawn characters?')) return
+    setStrokesMap({})
+    clearState()
   }
 
   function download() {
@@ -58,13 +78,14 @@ export default function App() {
     a.download = `${(fontName.trim() || 'Fontify').replace(/\s+/g, '-')}.otf`
     a.click()
     URL.revokeObjectURL(url)
+    setShowSupport(true)
   }
 
   return (
     <div className="app">
       <header className="topbar">
         <div className="row">
-          <span className="logo">Fontify</span>
+          <Logo />
           <input
             className="name-input"
             value={fontName}
@@ -72,7 +93,7 @@ export default function App() {
             placeholder="Your font name"
           />
           <span className="counter">
-            {drawn} / {total} characters
+            {drawn} / {activeChars.length} characters
           </span>
           <button className="primary" onClick={download} disabled={drawn === 0}>
             Download font (.otf)
@@ -92,22 +113,70 @@ export default function App() {
         </div>
       </header>
 
-      {GROUPS.map(group => (
-        <section key={group.label}>
-          <h2>{group.label}</h2>
-          <div className="grid">
-            {group.chars.map(ch => (
-              <DrawCell
-                key={ch}
-                char={ch}
-                strokes={strokesMap[ch] ?? []}
-                onAddStroke={s => addStroke(ch, s)}
-                onClear={() => clearChar(ch)}
-              />
-            ))}
-          </div>
+      <div className="charsets">
+        {CHARSETS.map(cs => {
+          const chars = cs.groups.flatMap(g => g.chars)
+          const done = chars.filter(ch => (strokesMap[ch] ?? []).length > 0).length
+          const active = enabledSets.includes(cs.id)
+          return (
+            <button
+              key={cs.id}
+              className={active ? 'chip active' : 'chip'}
+              onClick={() => toggleSet(cs.id)}
+            >
+              {cs.label}
+              <span className="chip-count">
+                {done}/{chars.length}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+
+      {activeSets.map(cs => (
+        <section key={cs.id}>
+          <h2>{cs.label}</h2>
+          {cs.groups.map(group => (
+            <div key={group.label}>
+              <h3>{group.label}</h3>
+              <div className="grid">
+                {group.chars.map(ch => (
+                  <DrawCell
+                    key={ch}
+                    char={ch}
+                    strokes={strokesMap[ch] ?? []}
+                    onAddStroke={s => addStroke(ch, s)}
+                    onClear={() => clearChar(ch)}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
         </section>
       ))}
+
+      <footer className="footer">
+        <span>Fontify · open source, free forever</span>
+        <nav>
+          {GITHUB_URL && (
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+          )}
+          {KOFI_URL && (
+            <a href={KOFI_URL} target="_blank" rel="noreferrer">
+              Support on Ko-fi
+            </a>
+          )}
+          <a href="/impressum.html">Impressum</a>
+          <a href="/privacy.html">Privacy</a>
+          <button className="linklike" onClick={resetAll}>
+            Start over
+          </button>
+        </nav>
+      </footer>
+
+      {showSupport && <SupportCard onClose={() => setShowSupport(false)} />}
     </div>
   )
 }

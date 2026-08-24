@@ -168,8 +168,8 @@ export default function App() {
               Support on Ko-fi
             </a>
           )}
-          <a href="/impressum.html">Impressum</a>
-          <a href="/privacy.html">Privacy</a>
+          <a href={`${import.meta.env.BASE_URL}impressum.html`}>Impressum</a>
+          <a href={`${import.meta.env.BASE_URL}privacy.html`}>Privacy</a>
           <button className="linklike" onClick={resetAll}>
             Start over
           </button>

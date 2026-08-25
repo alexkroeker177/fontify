@@ -6,6 +6,7 @@ import { buildFont } from './fontBuilder'
 import { SupportCard } from './SupportCard'
 import { GITHUB_URL, KOFI_URL } from './config'
 import { clearState, loadState, saveState } from './persistence'
+import { trackEvent } from './analytics'
 import type { Stroke } from './types'
 
 const PREVIEW_FAMILY = 'FontifyPreview'
@@ -19,6 +20,7 @@ export default function App() {
   const [previewReady, setPreviewReady] = useState(false)
   const [showSupport, setShowSupport] = useState(false)
   const faceRef = useRef<FontFace | null>(null)
+  const firstGlyphTracked = useRef(false)
 
   const activeSets = CHARSETS.filter(cs => enabledSets.includes(cs.id))
   const activeChars = activeSets.flatMap(cs => cs.groups.flatMap(g => g.chars))
@@ -51,6 +53,10 @@ export default function App() {
   }, [strokesMap, enabledSets])
 
   function addStroke(ch: string, stroke: Stroke) {
+    if (!firstGlyphTracked.current && drawn === 0) {
+      firstGlyphTracked.current = true
+      trackEvent('first-glyph')
+    }
     setStrokesMap(m => ({ ...m, [ch]: [...(m[ch] ?? []), stroke] }))
   }
 
@@ -78,6 +84,7 @@ export default function App() {
     a.download = `${(fontName.trim() || 'Fontify').replace(/\s+/g, '-')}.otf`
     a.click()
     URL.revokeObjectURL(url)
+    trackEvent('font-download')
     setShowSupport(true)
   }
 

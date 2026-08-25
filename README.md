@@ -25,11 +25,6 @@ Latin, German (umlauts & ß), Polish, Greek, Russian (Cyrillic), and Japanese Ka
 OpenType shaping to look right (Arabic joining, Thai mark positioning, Korean syllable
 composition, CJK ideographs) are on the roadmap, not faked.
 
-## Configuration
-
-Copy `.env.example` to `.env`. All values are optional: Ko-fi link, GitHub link, and a
-[GoatCounter](https://www.goatcounter.com/) site code for cookie-free analytics.
-
 ## Development
 
 ```bash

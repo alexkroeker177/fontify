@@ -32,7 +32,13 @@ export function loadState(): { sets: string[]; map: Record<string, Stroke[]> } |
         return stroke
       })
     }
-    return { sets: data.sets?.length ? data.sets : ['latin'], map }
+    const sets = data.sets?.length ? [...data.sets] : ['latin']
+    // Saves predating the German split kept umlauts inside "latin" - keep those
+    // drawings visible by enabling the new set they now live in.
+    if (!sets.includes('german') && [...'ÄÖÜäöüß'].some(ch => map[ch]?.length)) {
+      sets.push('german')
+    }
+    return { sets, map }
   } catch {
     return null
   }

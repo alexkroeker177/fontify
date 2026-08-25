@@ -15,11 +15,16 @@ export const CHARSETS: Charset[] = [
     id: 'latin',
     label: 'Latin',
     groups: [
-      { label: 'Uppercase', chars: [...'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ'] },
-      { label: 'Lowercase', chars: [...'abcdefghijklmnopqrstuvwxyzäöüß'] },
+      { label: 'Uppercase', chars: [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'] },
+      { label: 'Lowercase', chars: [...'abcdefghijklmnopqrstuvwxyz'] },
       { label: 'Digits', chars: [...'0123456789'] },
       { label: 'Punctuation', chars: [...`.,:;!?-'"()&@€`] },
     ],
+  },
+  {
+    id: 'german',
+    label: 'German',
+    groups: [{ label: 'Umlauts & ß', chars: [...'ÄÖÜäöüß'] }],
   },
   {
     id: 'polish',

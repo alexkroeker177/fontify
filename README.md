@@ -2,7 +2,11 @@
 
 Turn your handwriting into a real, installable font — in the browser, open source, free forever.
 
-Inspired by [Calligraphr](https://www.calligraphr.com/), minus the paywall. Everything runs client-side: no server, no account, no upload of your handwriting anywhere.
+**Try it live: [fontify.xyz](https://fontify.xyz)**
+
+![Fontify in action](media/fontify-showcase.gif)
+
+Everything runs client-side: no server, no account, no upload of your handwriting anywhere.
 
 ## How it works
 
@@ -12,9 +16,11 @@ Inspired by [Calligraphr](https://www.calligraphr.com/), minus the paywall. Ever
 
 Your work is saved locally in your browser - nothing you draw ever leaves your device.
 
+Under the hood: strokes are rasterized to a high-resolution canvas, vectorized with [imagetracerjs](https://github.com/jankovicsandras/imagetracerjs), and assembled into an OpenType font with [opentype.js](https://github.com/opentypejs/opentype.js).
+
 ## Character sets
 
-Latin (incl. German umlauts), Polish, Greek, Russian (Cyrillic), and Japanese Kana
+Latin, German (umlauts & ß), Polish, Greek, Russian (Cyrillic), and Japanese Kana
 (Hiragana + Katakana) - toggle them via the chips below the preview. Scripts that need
 OpenType shaping to look right (Arabic joining, Thai mark positioning, Korean syllable
 composition, CJK ideographs) are on the roadmap, not faked.
@@ -26,8 +32,6 @@ Copy `.env.example` to `.env`. All values are optional: Ko-fi link, GitHub link,
 `public/impressum.html` and `public/privacy.html` contain `[PLACEHOLDER]` fields to fill
 in before deploying.
 
-Under the hood: strokes are rasterized to a high-resolution canvas, vectorized with [imagetracerjs](https://github.com/jankovicsandras/imagetracerjs), and assembled into an OpenType font with [opentype.js](https://github.com/opentypejs/opentype.js).
-
 ## Development
 
 ```bash
@@ -37,7 +41,7 @@ bun run dev
 
 ## Roadmap
 
-- Printable template sheet → photo/scan upload → automatic glyph segmentation (the classic Calligraphr flow)
+- Printable template sheet → photo/scan upload → automatic glyph segmentation
 - Adjustable pen width, glyph variants, kerning pairs
 - Arabic (positional forms + joining via GSUB), Thai (mark positioning via GPOS), Korean (Hangul syllable composition)
 

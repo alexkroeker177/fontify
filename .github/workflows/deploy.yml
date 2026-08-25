@@ -25,6 +25,10 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
       - run: bun run build
+        env:
+          VITE_KOFI_URL: ${{ vars.VITE_KOFI_URL }}
+          VITE_GITHUB_URL: ${{ vars.VITE_GITHUB_URL }}
+          VITE_GOATCOUNTER_CODE: ${{ vars.VITE_GOATCOUNTER_CODE }}
       - uses: actions/configure-pages@v4
         with:
           enablement: true

@@ -29,8 +29,6 @@ composition, CJK ideographs) are on the roadmap, not faked.
 
 Copy `.env.example` to `.env`. All values are optional: Ko-fi link, GitHub link, and a
 [GoatCounter](https://www.goatcounter.com/) site code for cookie-free analytics.
-`public/impressum.html` and `public/privacy.html` contain `[PLACEHOLDER]` fields to fill
-in before deploying.
 
 ## Development
 

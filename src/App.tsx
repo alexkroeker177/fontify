@@ -168,7 +168,7 @@ export default function App() {
               Support on Ko-fi
             </a>
           )}
-          <a href={`${import.meta.env.BASE_URL}impressum.html`}>Impressum</a>
+          <a href={`${import.meta.env.BASE_URL}impressum.html`}>Imprint</a>
           <a href={`${import.meta.env.BASE_URL}privacy.html`}>Privacy</a>
           <button className="linklike" onClick={resetAll}>
             Start over
